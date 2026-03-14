@@ -1,0 +1,26 @@
+# 빌드 산출물
+Binaries/*
+Intermediate/*
+Saved/*
+DerivedDataCache/*
+
+# IDE 설정
+.vs/*
+.idea/*
+.vscode/*
+*.vsconfig
+
+# 솔루션 파일
+*.sln
+
+# 플러그인 빌드 산출물
+Plugins/**/Intermediate/*
+Plugins/**/Binaries/*
+Plugins/Developer/*
+
+# Claude 내부 파일
+.claude/*
+
+# 기타
+.junie
+/nul
