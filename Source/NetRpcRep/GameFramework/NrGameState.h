@@ -17,4 +17,14 @@ UCLASS()
 class NETRPCREP_API ANrGameState : public AGameStateBase
 {
 	GENERATED_BODY()
+
+public:
+    virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
+
+    FORCEINLINE float GetServerTime() const { return ServerTime; }
+    FORCEINLINE void  SetServerTime(const float NewTime) { ServerTime = NewTime; }
+
+protected:
+    UPROPERTY(Replicated)
+    float ServerTime = 0.f;
 };

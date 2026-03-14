@@ -47,6 +47,11 @@ protected:
     TSubclassOf<UNrChatWidget> ChatWidgetClass;
 
 private:
+    void PollServerTime() const;
+
     UPROPERTY()
     TObjectPtr<UNrChatWidget> CachedChatWidget;
+
+    FTimerHandle ServerTimePollHandle;
+    int32 MaxDamage = 10;
 };

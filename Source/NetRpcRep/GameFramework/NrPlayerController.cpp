@@ -3,6 +3,7 @@
 #include "NrPlayerController.h"
 
 #include "NrGameMode.h"
+#include "NrGameState.h"
 #include "UI/NrChatWidget.h"
 
 ANrPlayerController::ANrPlayerController()
@@ -29,6 +30,8 @@ void ANrPlayerController::BeginPlay()
             CachedChatWidget->AddToViewport(0);
         }
     }
+
+    GetWorldTimerManager().SetTimer(ServerTimePollHandle, this, &ANrPlayerController::PollServerTime, 1.f, true, 0.f);
 }
 
 bool ANrPlayerController::Server_ApplyDamage_Validate(const int32 Damage)
@@ -77,4 +80,13 @@ void ANrPlayerController::AddChatMessage(const FString& Message) const
     {
         CachedChatWidget->AddMessage(Message);
     }
+}
+
+void ANrPlayerController::PollServerTime() const
+{
+    const ANrGameState* GS = GetWorld()->GetGameState<ANrGameState>();
+    if (!GS || !CachedChatWidget)
+        return;
+
+    CachedChatWidget->UpdateServerTime(GS->GetServerTime());
 }

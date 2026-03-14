@@ -13,6 +13,12 @@ ANrGameMode::ANrGameMode()
     PlayerControllerClass = ANrPlayerController::StaticClass();
 }
 
+void ANrGameMode::StartPlay()
+{
+    Super::StartPlay();
+    GetWorldTimerManager().SetTimer(ServerTimeTimerHandle, this, &ANrGameMode::UpdateServerTime, 1.f, true, 0.f);
+}
+
 void ANrGameMode::ApplyDamageToAllPlayers(const APlayerController* Attacker, const int32 Damage) const
 {
     const ANrGameState* GS = GetGameState<ANrGameState>();
@@ -54,5 +60,13 @@ void ANrGameMode::BroadcastMessage(const FString& Message, const APlayerControll
             continue;
 
         PC->Client_ReceiveMessage(Message);
+    }
+}
+
+void ANrGameMode::UpdateServerTime() const
+{
+    if (ANrGameState* GS = GetGameState<ANrGameState>())
+    {
+        GS->SetServerTime(GetWorld()->GetTimeSeconds());
     }
 }
