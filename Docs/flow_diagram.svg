@@ -1,0 +1,202 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="1040" viewBox="0 0 760 1040">
+  <style>
+    text { font-family: 'Segoe UI', Arial, sans-serif; }
+  </style>
+  <defs>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="#ffba50"/>
+    </marker>
+    <marker id="arrow-teal" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="#2ba8a0"/>
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <path d="M0,0 L10,3.5 L0,7 Z" fill="#9b7fc4"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="760" height="1040" rx="12" fill="#f8f9fa"/>
+
+  <!-- ── Title ── -->
+  <rect x="32" y="28" width="4" height="40" rx="2" fill="#ffba50"/>
+  <text x="48" y="55" font-size="26" font-weight="bold" fill="#231f20">NetRpcRep 실행 흐름</text>
+  <text x="48" y="76" font-size="13" fill="#999999">Unreal Engine 5.6 · 서버 권위 네트워킹 구조</text>
+
+  <!-- ══════════════════════════════════════
+       CARD 1 · UNrChatWidget  y=96 h=133
+  ══════════════════════════════════════ -->
+  <rect x="180" y="96" width="400" height="133" rx="12"
+        fill="#ffffff" stroke="#9b7fc4" stroke-width="2.5"/>
+  <!-- TAG -->
+  <rect x="514" y="104" width="54" height="24" rx="4"
+        fill="#f0ebfa" stroke="#9b7fc4" stroke-width="1"/>
+  <text x="541" y="120" font-size="12" font-weight="bold" fill="#6b4fa0" text-anchor="middle">UI</text>
+  <!-- Dot + name -->
+  <circle cx="204" cy="128" r="9" fill="#9b7fc4"/>
+  <text x="220" y="134" font-size="20" font-weight="bold" fill="#231f20">UNrChatWidget</text>
+  <!-- Content -->
+  <text x="204" y="160" font-size="13" fill="#555555">- OnInputTextCommitted : "공격" → Server_ApplyDamage,  그 외 → Server_SubmitMessage</text>
+  <text x="204" y="180" font-size="13" fill="#555555">- AddMessage : 수신 메시지를 ScrollBox 에 TextBlock 으로 추가</text>
+  <text x="204" y="200" font-size="13" fill="#555555">- UpdateHealth / UpdateServerTime : 상태 TextBlock 갱신</text>
+
+  <!-- ── Arrow 1 : ChatWidget → PlayerController ── -->
+  <line x1="380" y1="229" x2="380" y2="289" stroke="#9b7fc4" stroke-width="2"
+        marker-end="url(#arrow-purple)"/>
+  <rect x="294" y="245" width="172" height="24" rx="4"
+        fill="#ffffff" stroke="#cccccc" stroke-width="1"/>
+  <text x="380" y="261" font-size="12" font-weight="bold" fill="#666666" text-anchor="middle">Server RPC 호출</text>
+
+  <!-- ══════════════════════════════════════
+       CARD 2 · ANrPlayerController  y=295 h=175
+  ══════════════════════════════════════ -->
+  <rect x="180" y="295" width="400" height="175" rx="12"
+        fill="#ffffff" stroke="#ffba50" stroke-width="2.5"/>
+  <!-- TAG -->
+  <rect x="500" y="303" width="68" height="24" rx="4"
+        fill="#fff8ec" stroke="#ffba50" stroke-width="1"/>
+  <text x="534" y="319" font-size="12" font-weight="bold" fill="#b07800" text-anchor="middle">RPC Hub</text>
+  <!-- Dot + name -->
+  <circle cx="204" cy="327" r="9" fill="#ffba50"/>
+  <text x="220" y="333" font-size="20" font-weight="bold" fill="#231f20">ANrPlayerController</text>
+  <!-- Content -->
+  <text x="204" y="358" font-size="13" fill="#555555">- Server_ApplyDamage    (Server, Reliable, WithValidation)</text>
+  <text x="204" y="378" font-size="13" fill="#555555">- Server_SubmitMessage  (Server, Reliable)</text>
+  <text x="204" y="398" font-size="13" fill="#555555">- Client_ReceiveMessage (Client, Reliable) → AddChatMessage</text>
+  <text x="204" y="418" font-size="13" fill="#555555">- PollServerTime : 1초 타이머 → GameState.ServerTime 읽어 UI 갱신</text>
+  <text x="204" y="438" font-size="13" fill="#555555">- BeginPlay : WBP_Chat 생성 후 뷰포트에 추가 (로컬 컨트롤러만)</text>
+
+  <!-- ── Arrow 2 : PlayerController → GameMode ── -->
+  <line x1="380" y1="470" x2="380" y2="530" stroke="#ffba50" stroke-width="2"
+        marker-end="url(#arrow-amber)"/>
+  <rect x="298" y="486" width="164" height="24" rx="4"
+        fill="#ffffff" stroke="#cccccc" stroke-width="1"/>
+  <text x="380" y="502" font-size="12" font-weight="bold" fill="#666666" text-anchor="middle">GameMode 위임</text>
+
+  <!-- ══════════════════════════════════════
+       CARD 3 · ANrGameMode  y=536 h=155
+  ══════════════════════════════════════ -->
+  <rect x="180" y="536" width="400" height="155" rx="12"
+        fill="#ffffff" stroke="#ffba50" stroke-width="2.5"/>
+  <!-- TAG -->
+  <rect x="500" y="544" width="68" height="24" rx="4"
+        fill="#fff8ec" stroke="#ffba50" stroke-width="1"/>
+  <text x="534" y="560" font-size="12" font-weight="bold" fill="#b07800" text-anchor="middle">Server</text>
+  <!-- Dot + name -->
+  <circle cx="204" cy="568" r="9" fill="#ffba50"/>
+  <text x="220" y="574" font-size="20" font-weight="bold" fill="#231f20">ANrGameMode</text>
+  <!-- Content -->
+  <text x="204" y="600" font-size="13" fill="#555555">- ApplyDamageToAllPlayers : PlayerArray 순회 → PlayerState.Health 감소</text>
+  <text x="204" y="620" font-size="13" fill="#555555">- SubmitMessage : 발신자에게 확인 메시지 + BroadcastMessage 호출</text>
+  <text x="204" y="640" font-size="13" fill="#555555">- BroadcastMessage : PlayerArray 순회 → PlayerController.Client_ReceiveMessage</text>
+  <text x="204" y="660" font-size="13" fill="#555555">- UpdateServerTime (1초 타이머) : GameState.SetServerTime 갱신</text>
+
+  <!-- ── Branch arrows : GameMode → PlayerState & GameState ── -->
+  <!-- Shared stem -->
+  <line x1="380" y1="691" x2="380" y2="725" stroke="#2ba8a0" stroke-width="2"/>
+  <!-- Horizontal branch line -->
+  <line x1="193" y1="725" x2="567" y2="725" stroke="#2ba8a0" stroke-width="2"/>
+  <!-- Left leg → PlayerState -->
+  <line x1="193" y1="725" x2="193" y2="765" stroke="#2ba8a0" stroke-width="2"
+        marker-end="url(#arrow-teal)"/>
+  <!-- Right leg → GameState -->
+  <line x1="567" y1="725" x2="567" y2="765" stroke="#2ba8a0" stroke-width="2"
+        marker-end="url(#arrow-teal)"/>
+  <!-- Left label -->
+  <rect x="108" y="714" width="168" height="22" rx="4"
+        fill="#ffffff" stroke="#cccccc" stroke-width="1"/>
+  <text x="192" y="729" font-size="12" font-weight="bold" fill="#666666" text-anchor="middle">SetHealth (데미지 적용)</text>
+  <!-- Right label -->
+  <rect x="484" y="714" width="166" height="22" rx="4"
+        fill="#ffffff" stroke="#cccccc" stroke-width="1"/>
+  <text x="567" y="729" font-size="12" font-weight="bold" fill="#666666" text-anchor="middle">SetServerTime (1초 갱신)</text>
+
+  <!-- ══════════════════════════════════════
+       CARD 4 · ANrPlayerState  x=28 y=767 w=330 h=133
+  ══════════════════════════════════════ -->
+  <rect x="28" y="767" width="330" height="133" rx="12"
+        fill="#ffffff" stroke="#2ba8a0" stroke-width="2.5"/>
+  <!-- TAG -->
+  <rect x="296" y="775" width="50" height="24" rx="4"
+        fill="#e8f7f6" stroke="#2ba8a0" stroke-width="1"/>
+  <text x="321" y="791" font-size="12" font-weight="bold" fill="#1a6e69" text-anchor="middle">State</text>
+  <!-- Dot + name -->
+  <circle cx="52" cy="799" r="9" fill="#2ba8a0"/>
+  <text x="68" y="805" font-size="18" font-weight="bold" fill="#231f20">ANrPlayerState</text>
+  <!-- Content -->
+  <text x="52" y="830" font-size="13" fill="#555555">- Health : int32 (ReplicatedUsing=OnRep_Health)</text>
+  <text x="52" y="850" font-size="13" fill="#555555">- OnRep_Health → PC.ReceivedCurrentHealth 콜백</text>
+  <text x="52" y="870" font-size="13" fill="#555555">- 초기값 100, Transient (재접속 시 재초기화)</text>
+
+  <!-- ══════════════════════════════════════
+       CARD 5 · ANrGameState  x=402 y=767 w=330 h=113
+  ══════════════════════════════════════ -->
+  <rect x="402" y="767" width="330" height="113" rx="12"
+        fill="#ffffff" stroke="#2ba8a0" stroke-width="2.5"/>
+  <!-- TAG -->
+  <rect x="670" y="775" width="50" height="24" rx="4"
+        fill="#e8f7f6" stroke="#2ba8a0" stroke-width="1"/>
+  <text x="695" y="791" font-size="12" font-weight="bold" fill="#1a6e69" text-anchor="middle">State</text>
+  <!-- Dot + name -->
+  <circle cx="426" cy="799" r="9" fill="#2ba8a0"/>
+  <text x="442" y="805" font-size="18" font-weight="bold" fill="#231f20">ANrGameState</text>
+  <!-- Content -->
+  <text x="426" y="830" font-size="13" fill="#555555">- ServerTime : float (Replicated, DOREPLIFETIME)</text>
+  <text x="426" y="850" font-size="13" fill="#555555">- 서버→모든 클라이언트 자동 복제</text>
+
+  <!-- ══════════════════════════════════════
+       BACK ARROWS (dashed)
+  ══════════════════════════════════════ -->
+
+  <!-- OnRep_Health : PlayerState left → up → PlayerController left -->
+  <path d="M28,833 L8,833 L8,382 L180,382"
+        fill="none" stroke="#2ba8a0" stroke-width="2" stroke-dasharray="6,3"
+        marker-end="url(#arrow-teal)"/>
+  <rect x="12" y="596" width="128" height="22" rx="4"
+        fill="#ffffff" stroke="#2ba8a0" stroke-width="1"/>
+  <text x="76" y="611" font-size="11" font-weight="bold" fill="#2ba8a0" text-anchor="middle">OnRep_Health 콜백 ↑</text>
+
+  <!-- ServerTime poll : GameState right → up → PlayerController right -->
+  <path d="M732,823 L752,823 L752,382 L580,382"
+        fill="none" stroke="#2ba8a0" stroke-width="2" stroke-dasharray="6,3"
+        marker-end="url(#arrow-teal)"/>
+  <rect x="620" y="590" width="126" height="22" rx="4"
+        fill="#ffffff" stroke="#2ba8a0" stroke-width="1"/>
+  <text x="683" y="605" font-size="11" font-weight="bold" fill="#2ba8a0" text-anchor="middle">ServerTime 폴링 ↑</text>
+
+  <!-- UI Update : PlayerController left → up → ChatWidget left -->
+  <path d="M180,382 L160,382 L160,162 L180,162"
+        fill="none" stroke="#9b7fc4" stroke-width="2" stroke-dasharray="6,3"
+        marker-end="url(#arrow-purple)"/>
+  <rect x="62" y="262" width="90" height="22" rx="4"
+        fill="#ffffff" stroke="#9b7fc4" stroke-width="1"/>
+  <text x="107" y="277" font-size="11" font-weight="bold" fill="#9b7fc4" text-anchor="middle">UI 갱신 ↑</text>
+
+  <!-- ══════════════════════════════════════
+       LEGEND  y=926 h=88
+  ══════════════════════════════════════ -->
+  <rect x="32" y="926" width="696" height="88" rx="12"
+        fill="#ffffff" stroke="#dddddd" stroke-width="1.5"/>
+  <text x="380" y="948" font-size="14" font-weight="bold" fill="#aaaaaa" text-anchor="middle">:: 한 줄 비유 ::</text>
+
+  <!-- Row 1 -->
+  <circle cx="56"  cy="968" r="6" fill="#9b7fc4"/>
+  <text x="70"  y="973" font-size="13" font-weight="bold" fill="#231f20">UNrChatWidget</text>
+  <text x="182" y="973" font-size="13" fill="#999999">— 사용자 대화창구</text>
+
+  <circle cx="340" cy="968" r="6" fill="#ffba50"/>
+  <text x="354" y="973" font-size="13" font-weight="bold" fill="#231f20">ANrPlayerController</text>
+  <text x="492" y="973" font-size="13" fill="#999999">— 서버↔클라이언트 메신저</text>
+
+  <!-- Row 2 -->
+  <circle cx="56"  cy="995" r="6" fill="#ffba50"/>
+  <text x="70"  y="1000" font-size="13" font-weight="bold" fill="#231f20">ANrGameMode</text>
+  <text x="172" y="1000" font-size="13" fill="#999999">— 서버 총괄 지휘자</text>
+
+  <circle cx="340" cy="995" r="6" fill="#2ba8a0"/>
+  <text x="354" y="1000" font-size="13" font-weight="bold" fill="#231f20">ANrPlayerState</text>
+  <text x="454" y="1000" font-size="13" fill="#999999">— 개인 건강 수첩</text>
+
+  <circle cx="596" cy="995" r="6" fill="#2ba8a0"/>
+  <text x="610" y="1000" font-size="13" font-weight="bold" fill="#231f20">ANrGameState</text>
+  <text x="706" y="1000" font-size="13" fill="#999999">— 상태 방송국</text>
+</svg>
