@@ -40,7 +40,7 @@ void ANrPlayerController::Server_ApplyDamage_Implementation(const int32 Damage)
 {
     if (const ANrGameMode* GM = GetWorld()->GetAuthGameMode<ANrGameMode>())
     {
-        // todo: 서버에 ApplyDamage를 호출한 플레이어를 제외한 다른 플레이더를에게 데미지를 주는 함수 호출
+        GM->ApplyDamageToAllPlayers(this, Damage);
     }
 }
 

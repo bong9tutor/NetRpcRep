@@ -25,7 +25,7 @@ void ANrGameMode::ApplyDamageToAllPlayers(const APlayerController* Attacker, con
 
         if (ANrPlayerState* PS = Cast<ANrPlayerState>(PlayerState))
         {
-            // todo: 플레이어의 Health 를 차감
+            PS->SetHealth(PS->GetHealth() - Damage);
         }
     }
 

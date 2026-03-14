@@ -17,4 +17,21 @@ UCLASS()
 class NETRPCREP_API ANrPlayerState : public APlayerState
 {
 	GENERATED_BODY()
+
+public:
+    virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;
+
+protected:
+    virtual void BeginPlay() override;
+
+public:
+    FORCEINLINE int32 GetHealth() const { return Health; }
+    FORCEINLINE void  SetHealth(const int32 NewHealth) { Health = NewHealth; }
+
+protected:
+    UFUNCTION()
+    void OnRep_Health(int32 OldHealth);
+
+    UPROPERTY(Transient, ReplicatedUsing=OnRep_Health)
+    int32 Health = 100;
 };
