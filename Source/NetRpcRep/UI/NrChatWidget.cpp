@@ -64,12 +64,12 @@ void UNrChatWidget::OnInputTextCommitted(const FText& Text, ETextCommit::Type Co
 
     if (InputStr.Equals(TEXT("공격")))
     {
-        // todo: 서버에 데미지 이벤트 호출
+        PC->Server_ApplyDamage(10);
         AddMessage(TEXT("[시스템] 모든 플레이어를 공격(10) 시작"));
     }
     else
     {
-        // todo: 서버에 메시지 송신 이벤트 호출
+        PC->Server_SubmitMessage(InputStr);
     }
 
     InputTextBox->SetText(FText::GetEmpty());

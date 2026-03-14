@@ -29,6 +29,13 @@ public:
 protected:
     virtual void BeginPlay() override;
 
+public:
+    UFUNCTION(Server, Reliable, WithValidation)
+    void Server_ApplyDamage(const int32 Damage);
+
+    UFUNCTION(Server, Reliable)
+    void Server_SubmitMessage(const FString& Message);
+
 protected:
     UPROPERTY(EditDefaultsOnly, Category=UI)
     TSubclassOf<UNrChatWidget> ChatWidgetClass;

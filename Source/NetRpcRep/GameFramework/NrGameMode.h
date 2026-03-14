@@ -22,4 +22,9 @@ class NETRPCREP_API ANrGameMode : public AGameModeBase
 
 public:
     ANrGameMode();
+
+public:
+    void ApplyDamageToAllPlayers(const APlayerController* Attacker, const int32 Damage) const;
+    void SubmitMessage(APlayerController* PC, const FString& Message) const;
+    void BroadcastMessage(const FString& Message, const APlayerController* Sender) const;
 };
