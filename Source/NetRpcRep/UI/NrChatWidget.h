@@ -6,6 +6,10 @@
 #include "Blueprint/UserWidget.h"
 #include "NrChatWidget.generated.h"
 
+class UEditableTextBox;
+class UScrollBox;
+class UTextBlock;
+
 /**
  * [UMG 채팅 UI] 채팅 입력/출력 및 플레이어 상태 표시
  *
@@ -26,4 +30,30 @@ UCLASS()
 class NETRPCREP_API UNrChatWidget : public UUserWidget
 {
 	GENERATED_BODY()
+
+protected:
+    virtual void NativeConstruct() override;
+    virtual void NativeDestruct() override;
+
+public:
+    void UpdateHealth(const int32 Health) const;
+    void UpdateServerTime(const float Time) const;
+    void AddMessage(const FString& Message);
+
+protected:
+    UFUNCTION()
+    void OnInputTextCommitted(const FText& Text, ETextCommit::Type CommitType);
+
+protected:
+    UPROPERTY(meta=(BindWidget))
+    TObjectPtr<UScrollBox> ScrollBox;
+
+    UPROPERTY(meta=(BindWidget))
+    TObjectPtr<UEditableTextBox> InputTextBox;
+
+    UPROPERTY(meta=(BindWidget))
+    TObjectPtr<UTextBlock> CurrentHealthTextBlock;
+
+    UPROPERTY(meta=(BindWidget))
+    TObjectPtr<UTextBlock> ServerTimeTextBlock;
 };

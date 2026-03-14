@@ -6,6 +6,8 @@
 #include "GameFramework/PlayerController.h"
 #include "NrPlayerController.generated.h"
 
+class UNrChatWidget;
+
 /**
  * [클라이언트↔서버 RPC 허브] 입력 처리 및 UI 연결 담당
  *
@@ -20,4 +22,18 @@ UCLASS()
 class NETRPCREP_API ANrPlayerController : public APlayerController
 {
 	GENERATED_BODY()
+
+public:
+    ANrPlayerController();
+
+protected:
+    virtual void BeginPlay() override;
+
+protected:
+    UPROPERTY(EditDefaultsOnly, Category=UI)
+    TSubclassOf<UNrChatWidget> ChatWidgetClass;
+
+private:
+    UPROPERTY()
+    TObjectPtr<UNrChatWidget> CachedChatWidget;
 };

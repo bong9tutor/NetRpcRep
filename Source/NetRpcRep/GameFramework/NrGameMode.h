@@ -19,4 +19,7 @@ UCLASS()
 class NETRPCREP_API ANrGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
+
+public:
+    ANrGameMode();
 };
