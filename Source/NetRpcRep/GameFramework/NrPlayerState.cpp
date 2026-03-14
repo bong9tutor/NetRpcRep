@@ -17,7 +17,7 @@ void ANrPlayerState::BeginPlay()
 
     if (const ANrPlayerController* PC = Cast<ANrPlayerController>(GetOwner()))
     {
-        // todo: 플레이어의 UI Health 초기화를 위해 컨트롤러에 알림 (갱신)
+        PC->ReceivedCurrentHealth(Health);
     }
 }
 
@@ -25,6 +25,6 @@ void ANrPlayerState::OnRep_Health(int32 OldHealth)
 {
     if (const ANrPlayerController* PC = Cast<ANrPlayerController>(GetOwner()))
     {
-        // todo: 플레이어의 UI Health 갱신을 위해 컨트롤러에 알림
+        PC->ReceivedCurrentHealth(Health);
     }
 }

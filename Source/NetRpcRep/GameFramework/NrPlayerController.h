@@ -36,6 +36,8 @@ public:
     UFUNCTION(Server, Reliable)
     void Server_SubmitMessage(const FString& Message);
 
+    void ReceivedCurrentHealth(const int32 CurHealth) const;
+
 protected:
     UPROPERTY(EditDefaultsOnly, Category=UI)
     TSubclassOf<UNrChatWidget> ChatWidgetClass;

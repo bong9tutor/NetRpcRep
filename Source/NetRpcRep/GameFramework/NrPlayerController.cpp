@@ -51,3 +51,14 @@ void ANrPlayerController::Server_SubmitMessage_Implementation(const FString& Mes
         // todo: 서버에 메세지를 Submit 하는 함수 호출
     }
 }
+
+void ANrPlayerController::ReceivedCurrentHealth(const int32 CurHealth) const
+{
+    if (!IsLocalController())
+        return;
+
+    if (CachedChatWidget)
+    {
+        CachedChatWidget->UpdateHealth(CurHealth);
+    }
+}
