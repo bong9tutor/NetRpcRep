@@ -48,8 +48,13 @@ void ANrPlayerController::Server_SubmitMessage_Implementation(const FString& Mes
 {
     if (const ANrGameMode* GM = GetWorld()->GetAuthGameMode<ANrGameMode>())
     {
-        // todo: 서버에 메세지를 Submit 하는 함수 호출
+        GM->SubmitMessage(this, Message);
     }
+}
+
+void ANrPlayerController::Client_ReceiveMessage_Implementation(const FString& Message)
+{
+    AddChatMessage(Message);
 }
 
 void ANrPlayerController::ReceivedCurrentHealth(const int32 CurHealth) const
@@ -60,5 +65,16 @@ void ANrPlayerController::ReceivedCurrentHealth(const int32 CurHealth) const
     if (CachedChatWidget)
     {
         CachedChatWidget->UpdateHealth(CurHealth);
+    }
+}
+
+void ANrPlayerController::AddChatMessage(const FString& Message) const
+{
+    if (!IsLocalController())
+        return;
+
+    if (CachedChatWidget)
+    {
+        CachedChatWidget->AddMessage(Message);
     }
 }

@@ -36,7 +36,7 @@ void ANrGameMode::SubmitMessage(APlayerController* PC, const FString& Message) c
 {
     if (ANrPlayerController* BPC = Cast<ANrPlayerController>(PC))
     {
-        // todo: 메시지를 보낸 플레이어에게 서버에서 메시지 수신 성공 메시지 보내기
+        BPC->Client_ReceiveMessage(FString::Printf(TEXT("[시스템] 서버에 메시지 전달 성공 Message: %s"), *Message));
     }
 
     BroadcastMessage(Message, PC);
@@ -53,6 +53,6 @@ void ANrGameMode::BroadcastMessage(const FString& Message, const APlayerControll
         if (!PC || PC == Sender)
             continue;
 
-        // todo: 현재 접속중인 플레이어들 중 메시지를 보낸 플레이어를 제외 하고 메시지 보내기
+        PC->Client_ReceiveMessage(Message);
     }
 }

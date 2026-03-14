@@ -36,7 +36,11 @@ public:
     UFUNCTION(Server, Reliable)
     void Server_SubmitMessage(const FString& Message);
 
+    UFUNCTION(Client, Reliable)
+    void Client_ReceiveMessage(const FString& Message);
+
     void ReceivedCurrentHealth(const int32 CurHealth) const;
+    void AddChatMessage(const FString& Message) const;
 
 protected:
     UPROPERTY(EditDefaultsOnly, Category=UI)
